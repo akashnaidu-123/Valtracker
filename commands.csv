@@ -1,0 +1,44 @@
+sandstone -v -T -1m -e *lock* -o lock.txt|40|PASS
+rocket --atlas "--hw dram,dsa" -M.1|16|FAIL
+killmax|3|PASS
+pysces -SFc graniterapids.cfg --seconds=30 --total_run_min=6 -M 6 -p PM_Stress -O harassers -x .*cxl.*,.*uxi.* --cmd_timeout=5 -a -maxsets=156|15|FAIL
+pysces -SFc graniterapids.cfg --seconds=30 --total_run_min=6 -M 6 -p PM_Stress -O harassers -x .*cxl.*,.*uxi.* --cmd_timeout=5 -a -maxsets=156|15|FAIL
+rocket --atlas "--hw dram,dsa,pcie,cpu" -M.01|20|FAIL
+pysces -SFc graniterapids.cfg --seconds=30 --total_run_min=6 -M 6 -p PM_Stress -O harassers -x .*cxl.*,.*uxi.* --cmd_timeout=5 -a -maxsets=156|14|FAIL
+sandstone -v -T -1m -e *spin_lock* -o spin.txt|0|PASS
+sandstone -v -T -1m -e *spin* -o spin.txt|22|PASS
+killmax|3|PASS
+killmax|3|NA
+rocket --atlas "--hw dram,dsa" -M.1|14|FAIL
+sandstone -v -T -1m -e *math* -o math.txt|4|PASS
+#!/bin/bash|0|NA
+summary_dir="/root/Valtracker/summary/summary_report"|0|NA
+output_base="/root/Valtracker/test_logs"|0|NA
+collateral_dir="/root/Valtracker/collateral"|0|NA
+csv_file="/root/Valtracker/commands.csv"|0|NA
+model_file="/root/Valtracker/cmd_model.pkl"|0|NA
+train_py="/root/Valtracker/train_predictor.py"|0|NA
+predict_py="/root/Valtracker/predict_cmd.py"|0|NA
+sandstone -v -T -1m -e *amx* -o amx.txt|0|PASS
+rocket atlas "hw dram,dsa" -M.01|9|FAIL
+sandstoen atlas "hw dram"|0|FAIL
+killmax|2|NA
+cleanArden_new|2|FAIL
+rocket_cleanup|0|NA
+regacc /sv/arden-*/global mstr_ctl[11]=1|0|NA
+regacc /sv/*-*/global.uncorr_err_sts=0xFFFFFFFF|0|NA
+regacc /sv/*-*/global.corr_err_sts=0xFFFF|0|NA
+regacc /sv/*-*/global.sts=0xFFFF|0|NA
+regacc /sv/*-*/global.reg_cpltoreg_type=0x00FFFFF4|0|NA
+regacc -r -s /sv/arden*/global mctp_src_id[31:24]=0x1d|0|NA
+killmax|3|NA
+cleanArden_new|2|FAIL
+rocket_cleanup|1|NA
+regacc /sv/arden-*/global mstr_ctl[11]=1|1|NA
+regacc /sv/*-*/global.uncorr_err_sts=0xFFFFFFFF|0|NA
+regacc /sv/*-*/global.corr_err_sts=0xFFFF|0|NA
+regacc /sv/*-*/global.sts=0xFFFF|0|NA
+regacc /sv/*-*/global.reg_cpltoreg_type=0x00FFFFF4|0|NA
+regacc -r -s /sv/arden*/global mctp_src_id[31:24]=0x1d|0|NA
+sandstone -v -T 1m -e *amx* -o amx.txt|60|PASS
+pysces -SFc graniterapids.cfg --seconds=30 --total_run_min=1 -M 1 -p PM_Stress -O pstatesXwbinvd -x ".*dsa.*",".*local-cxl-00/vm.*" --cmd_timeout=10 -a "-maxsets=8192"|77|PASS
